@@ -1,0 +1,14 @@
+:root{
+    --dark-main: #141414;
+    --dark-second: #2b2b2b;
+    --light-main: white;
+    --light-scond: red;
+    
+}
+
+.dark-theme{
+    --dark-main: white;
+    --dark-second: #e4e4e4;
+    --light-main: #141414;
+    /* --dark-second:white;  */
+}
