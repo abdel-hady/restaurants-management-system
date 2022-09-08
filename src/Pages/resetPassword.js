@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./resetPassword.css";
-import { Link, useNavigate } from "react-router-dom";
-import { useQuery, useMutation, gql } from "@apollo/client";
+import {  useNavigate } from "react-router-dom";
+import {  useMutation, gql } from "@apollo/client";
 // import Swal from 'sweetalert2'
 
 const RESET = gql`
@@ -20,7 +20,7 @@ const ResetPassword = () => {
     password: "",
     password_confirmation: "",
   });
-  const [resetUser, { data, loading, error }] = useMutation(RESET);
+  const [resetUser, { data, error }] = useMutation(RESET);
   const [errors, setError] = useState({
     status: false,
     msg: "",
