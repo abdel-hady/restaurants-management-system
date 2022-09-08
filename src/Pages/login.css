@@ -20,7 +20,7 @@ body {
   z-index: 11;
 }
 
-.bg-defualt {
+.sign-in .bg-defualt {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -31,7 +31,7 @@ body {
   filter: blur(5px);
 }
 
-.logo-form {
+.sign-in .logo-form {
   position: relative;
   top: 0%;
   z-index: 10;
@@ -108,7 +108,7 @@ body {
   border-radius: 6px;
 }
 
-.password-eye {
+.sign-in .password-eye {
   position: relative;
 }
 
@@ -118,19 +118,19 @@ body {
   font-size: 14px;
 }
 
-.check {
+.sign-in .check {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
 }
 
-.check input {
+.sign-in .check input {
   width: fit-content;
   margin: 0px 5px 0px 0px;
 }
 
-.check label {
+.sign-in .check label {
   margin: 0;
 }
 
@@ -140,7 +140,7 @@ body {
   margin-top: 15px;
 }
 
-.btneye {
+.sign-in .btneye {
   outline: none !important;
   border: none !important;
   background-color: transparent;
@@ -163,13 +163,13 @@ body {
   border: none;
 }
 
-.copy-right {
+.sign-in .copy-right {
   padding: 30px;
   margin-top: 130px;
   text-align: center;
 }
 
-.link {
+.sign-in .link {
   margin-top: 10px;
   text-decoration: none;
   color: blue;
