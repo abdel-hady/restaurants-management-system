@@ -152,6 +152,7 @@ body {
 }
 
 .sign-in .button {
+  cursor: pointer;
   padding: 20px;
   margin-top: 15px;
   background-color: green;
@@ -173,6 +174,7 @@ body {
   text-decoration: none;
   color: blue;
 }
+
 
 @media screen and (max-width: 768px) {
   .sign-in .logo {

@@ -9,13 +9,18 @@ import {
 import Login from "./Pages/login";
 import ForgetPassword from "./Pages/forgetPassword";
 import ResetPassword from "./Pages/resetPassword";
+import Home from "./Pages/Admin/home";
+import HomePage from "./Pages";
 function App() {
   return (
+
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/forget-password" element={<ForgetPassword/>} />
-        <Route path="/resturant_api/public/api/admin/changepassword/:token" element={<ResetPassword/>} />
+        <Route path="/reset-password/:id" element={<ResetPassword/>} />
+        <Route path="/home" element={<Home/>} />
+        <Route path="/" element={<HomePage/>} />
       </Routes>
     </Router>
   );

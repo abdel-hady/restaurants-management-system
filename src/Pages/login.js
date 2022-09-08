@@ -3,15 +3,22 @@ import "./login.css";
 import { Link } from "react-router-dom";
 // import Logo from 'logo-chef.jfif'
 import { useQuery, useMutation, gql } from "@apollo/client";
-
+import { useNavigate } from "react-router-dom";
+import LoadingButton from '../Component/button'
 const LOGIN = gql`
   mutation ($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       email
+      token_info {
+        access_token
+        refresh_token
+      }
     }
   }
 `;
 const Login = () => {
+  const navigate = useNavigate();
+
   const currentYear = new Date().getFullYear();
   const [passwordType, setPasswordType] = useState("password");
   const [checked, setChecked] = React.useState(false);
@@ -20,13 +27,12 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [load, setLoading] = useState();
   const [errors, seterrors] = useState({
     email: "",
     password: "",
   });
 
-  // if (loading) console.log("loading...");
-  // if (data) console.log(data);
   const themeDark = () => {
     document.body.classList.toggle("dark-theme");
   };
@@ -58,6 +64,7 @@ const Login = () => {
   const handleChange = () => {
     setChecked(!checked);
   };
+
   useEffect(() => {
     const email = document.getElementById("email");
     const password = document.getElementById("password");
@@ -65,6 +72,26 @@ const Login = () => {
       email.value = JSON.parse(localStorage.getItem("user")).email;
       password.value = JSON.parse(localStorage.getItem("user")).password;
       setformData({ email: email.value, password: password.value });
+    }
+    if (loading) {
+      setLoading(
+        LoadingButton
+      )
+    }else{
+      setLoading(
+        <button className="button">Sing In</button>
+      )
+    }
+    if (data) {
+      sessionStorage.setItem(
+        "access_token",
+        data.login.token_info.access_token
+      );
+      sessionStorage.setItem(
+        "refresh_token",
+        data.login.token_info.refresh_token
+      );
+      navigate("/home");
     }
     if (error)
       if (error.graphQLErrors[0].extensions.validation) {
@@ -97,7 +124,7 @@ const Login = () => {
           return { ...prevValue, email: error.message };
         });
       }
-  }, [error]);
+  }, [error, data,loading]);
   return (
     <div className="sign-in">
       <div className="bg-defualt"></div>
@@ -173,10 +200,13 @@ const Login = () => {
               />
               <label htmlFor="check">Remember Me</label>
             </div>
-            <Link to="/forget-password" className="link">
-              <div className="forget">Forget password?</div>
-            </Link>
-            <button className="button">Sing In</button>
+            <div className="forget">
+              <Link to="/forget-password" className="link">
+                Forget password?
+              </Link>
+            </div>
+            {/* <button className="button">Sing In</button> */}
+            {load}
           </form>
         </div>
         <div className="copy-right">Pizza &copy; {currentYear}</div>
