@@ -33,7 +33,7 @@ const ForgetPassword = () => {
   };
   return (
     <>
-      <div className="reset-password">
+      <div className="forget-password">
         <div className="bg-defualt"></div>
         <div className="logo-form">
           <div className="logo" onClick={themeDark}>
@@ -42,7 +42,7 @@ const ForgetPassword = () => {
           </div>
           <div className="form-icon">
               <form onSubmit={handleSubmit}>
-                <h1>Reset password</h1>
+                <h1>Forget password</h1>
                 <span className="welcome">
                   Enter your email below, and we'll send you a link to
                   reset your password.

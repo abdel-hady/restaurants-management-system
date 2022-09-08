@@ -15,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/forget-password" element={<ForgetPassword/>} />
+        <Route path="/reset-password" element={<ResetPassword/>} />
         <Route path="/resturant_api/public/api/admin/changepassword/:token" element={<ResetPassword/>} />
       </Routes>
     </Router>
