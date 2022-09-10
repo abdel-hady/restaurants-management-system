@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import swal from "sweetalert";
 import LoadingButton from "../Component/button";
-import { FORGET } from "./GraphQl/graphql";
+import { FORGET } from "../GraphQl/graphql";
 
 const ForgetPassword = () => {
   const currentYear = new Date().getFullYear();

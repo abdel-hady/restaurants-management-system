@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import LoadingButton from "../Component/button";
-import LOGIN from "./GraphQl/graphql";
+import LOGIN from "../GraphQl/graphql";
 const Login = () => {
   const navigate = useNavigate();
   const currentYear = new Date().getFullYear();

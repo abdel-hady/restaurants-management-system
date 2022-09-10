@@ -3,7 +3,7 @@ import "./resetPassword.css";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import swal from "sweetalert";
-import { RESET } from "./GraphQl/graphql";
+import { RESET } from "../GraphQl/graphql";
 import LoadingButton from "../Component/button";
 
 const ResetPassword = () => {

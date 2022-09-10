@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, gql } from "@apollo/client";
-import { DELETE, LOGOUT } from '../GraphQl/graphql';
+import { DELETE, LOGOUT } from '../../GraphQl/graphql';
 
 const Home = () => {
   const [logoutUser, {client, data, loading, error }] = useMutation(LOGOUT);
