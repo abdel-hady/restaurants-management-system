@@ -1,23 +1,10 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, gql } from "@apollo/client";
+import { DELETE, LOGOUT } from '../GraphQl/graphql';
 
-const LOGOUT = gql`
-  mutation {
-    logout{
-      message
-    }
-  }
-`;
-const DELETE = gql`
-  mutation ($id:ID!){
-    deleterole(id:$id){
-      id
-    }
-  }
-`;
 const Home = () => {
-  const [logoutUser, { data, loading, error }] = useMutation(LOGOUT);
+  const [logoutUser, {client, data, loading, error }] = useMutation(LOGOUT);
   const [deleteUser, { }] = useMutation(DELETE);
   const navigate = useNavigate();
 
@@ -38,10 +25,11 @@ const Home = () => {
       variables:{
       }
     }).then(res=>{
-      // console.log(res)
-      const data=res.json()
-    }).then(data=>{
-      console.log(data)
+      console.log(res.data.logout.message)
+      console.log(client)
+      client.resetStore()
+      sessionStorage.clear()
+      navigate("/")
     }).catch(err=>{
       console.log(err)
     })

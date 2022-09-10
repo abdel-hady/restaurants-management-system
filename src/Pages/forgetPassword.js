@@ -1,39 +1,26 @@
-// import React from 'react';
 import React, { useState, useEffect } from "react";
 import "./forgetPassword.css";
 import { Link } from "react-router-dom";
-// import Logo from 'logo-chef.jfif'
-import { useQuery, useMutation, gql } from "@apollo/client";
-import swal from 'sweetalert'
-import LoadingButton from '../Component/button';
-
-const FORGET = gql`
-  mutation ($email: String!) {
-    resetemail(email: $email)
-  }
-`;
+import { useMutation } from "@apollo/client";
+import swal from "sweetalert";
+import LoadingButton from "../Component/button";
+import { FORGET } from "./GraphQl/graphql";
 
 const ForgetPassword = () => {
-  const [message, setmessage] = useState();
+  const currentYear = new Date().getFullYear();
+  const [load, setLoading] = useState();
+  const [error, seterror] = useState();
   const [resetPassword, { loading }] = useMutation(FORGET);
   const [formData, setformData] = useState({
     email: "",
   });
-  const [load, setLoading] = useState();
-  const [error, seterror] = useState();
-  // if (loading) console.log("loading...");
-  const themeDark = () => {
-    document.body.classList.toggle("dark-theme");
-  };
   useEffect(() => {
+    if (localStorage.getItem("mode"))
+      document.body.classList.add(localStorage.getItem("mode"));
     if (loading) {
-      setLoading(
-        LoadingButton
-      )
-    }else{
-      setLoading(
-        <button className="button">Send</button>
-      )
+      setLoading(LoadingButton);
+    } else {
+      setLoading(<button className="button">Send</button>);
     }
   }, [loading]);
   const handleSubmit = (e) => {
@@ -50,7 +37,7 @@ const ForgetPassword = () => {
           text: res.data.resetemail,
           icon: "success",
           button: "OK",
-      });
+        });
       })
       .catch((err) => {
         seterror(
@@ -71,13 +58,13 @@ const ForgetPassword = () => {
       <div className="forget-password">
         <div className="bg-defualt"></div>
         <div className="logo-form">
-          <div className="logo" onClick={themeDark}>
-            <img className="logo-chef" src="icons/chef.png" alt="logo-chef" />
+          <div className="logo">
+            <img className="logo-chef" src="/icons/chef.png" alt="logo-chef" />
             <div>Pizza</div>
           </div>
           <div className="form-icon">
             <form onSubmit={handleSubmit}>
-              <h1>Reset password</h1>
+              <p>Reset password</p>
               <span className="welcome">
                 Enter your email below, and we'll send you a link to reset your
                 password.
@@ -100,7 +87,7 @@ const ForgetPassword = () => {
               </Link>
             </form>
           </div>
-          <div className="copy-right">Pizza &copy; 2022</div>
+          <div className="copy-right">Pizza &copy; {currentYear}</div>
         </div>
       </div>
     </>

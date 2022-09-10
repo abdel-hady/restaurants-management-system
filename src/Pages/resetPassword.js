@@ -1,51 +1,62 @@
 import React, { useEffect, useState } from "react";
 import "./resetPassword.css";
-import {  useNavigate } from "react-router-dom";
-import {  useMutation, gql } from "@apollo/client";
-// import Swal from 'sweetalert2'
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import swal from "sweetalert";
+import { RESET } from "./GraphQl/graphql";
+import LoadingButton from "../Component/button";
 
-const RESET = gql`
-  mutation ($id: ID!, $password: String!) {
-    changepassword(id: $id, password: $password) {
-      message
-    }
-  }
-`;
 const ResetPassword = () => {
-  const currentYear = new Date().getFullYear();
   const navigate = useNavigate();
+  const currentYear = new Date().getFullYear();
+  const [resetUser, { loading }] = useMutation(RESET);
+  const [load, setLoading] = useState();
   const [passwordType, setPasswordType] = useState("password");
-  const [wait, setWait] = useState(false);
   const [formData, setformData] = useState({
     password: "",
     password_confirmation: "",
   });
-  const [resetUser, { data, error }] = useMutation(RESET);
   const [errors, setError] = useState({
-    status: false,
     msg: "",
   });
-  if (data) {
-    console.log(data.changepassword.message);
-  }
-  if (error) {
-    console.log(error.graphQLErrors[0].extensions.validation.password);
-  }
-  const themeDark = () => {
-    document.body.classList.toggle("dark-theme");
-  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    resetUser({
-      variables: {
-        id: 1,
-        password: formData.password,
-      },
-    }).catch((err) => {
-      err.graphQLErrors.map((error) => {
-        return error.message;
+    if (
+      formData.password_confirmation === formData.password ||
+      formData.password === ""
+    ) {
+      resetUser({
+        variables: {
+          id: 1,
+          password: formData.password,
+        },
+      })
+        .then((res) => {
+          swal({
+            title: "Success!",
+            text: res.data.changepassword.message,
+            icon: "success",
+            button: "OK",
+          });
+          navigate("/login");
+        })
+        .catch((err) => {
+          if (err.graphQLErrors[0].extensions.validation.password) {
+            setError({
+              msg: Object.values(
+                err.graphQLErrors[0].extensions.validation.password
+              ).map((ele) => {
+                return ele;
+              }),
+            });
+          }
+        });
+    } else {
+      setError({
+        msg: "Password confirmation doesn't match the password",
       });
-    });
+    }
   };
 
   const togglePassword = (e) => {
@@ -58,33 +69,20 @@ const ResetPassword = () => {
   };
 
   useEffect(() => {
-    if (error) {
-      if (error.graphQLErrors[0].extensions.validation.password) {
-        setError({
-          status: true,
-          msg: Object.values(
-            error.graphQLErrors[0].extensions.validation.password
-          ).map((ele) => {
-            return ele;
-          }),
-        });
-      }
+    if (localStorage.getItem("mode"))
+      document.body.classList.add(localStorage.getItem("mode"));
+    if (loading) {
+      setLoading(LoadingButton);
+    } else {
+      setLoading(<button className="button">Reset password</button>);
     }
-    if (data) {
-      // Swal.fire({
-      //   icon: 'success',
-      //   title: data.changepassword.message,
-      //   // timer: 2000
-      // })
-      navigate("/login");
-    }
-  }, [error, data]);
+  }, [loading]);
   return (
     <div className="reset-password">
       <div className="bg-defualt"></div>
       <div className="logo-form">
-        <div className="logo" onClick={themeDark}>
-          <img className="logo-chef" src="icons/chef.png" alt="logo-chef" />
+        <div className="logo">
+          <img className="logo-chef" src="/icons/chef.png" alt="logo-chef" />
           <div>Pizza</div>
         </div>
         <div className="form-icon">
@@ -110,13 +108,13 @@ const ResetPassword = () => {
               <button className="btneye" onClick={togglePassword}>
                 {passwordType === "password" ? (
                   <img
-                    src="icons/eye-crossed.png"
+                    src="/icons/eye-crossed.png"
                     className="eye"
                     alt="Phone"
                   />
                 ) : (
                   <img
-                    src="icons/eye.png"
+                    src="/icons/eye.png"
                     className="eye"
                     alt="Phone"
                     style={{ width: "20px" }}
@@ -124,6 +122,7 @@ const ResetPassword = () => {
                 )}
               </button>
             </div>
+            <span className="error">{errors.msg}</span>
             <label>Confirm Password</label>
             <div className="password-eye">
               <input
@@ -135,29 +134,19 @@ const ResetPassword = () => {
                     ...formData,
                     password_confirmation: e.target.value,
                   });
-                  if (formData.password === e.target.value) {
-                    setError({ status: true, msg: "" });
-                    setWait(false);
-                  } else {
-                    setError({
-                      status: true,
-                      msg: "Password and Confirm Password Doesn't Match",
-                    });
-                    setWait(true);
-                  }
                 }}
                 placeholder="Password"
               />
               <button className="btneye" onClick={togglePassword}>
                 {passwordType === "password" ? (
                   <img
-                    src="icons/eye-crossed.png"
+                    src="/icons/eye-crossed.png"
                     className="eye"
                     alt="Phone"
                   />
                 ) : (
                   <img
-                    src="icons/eye.png"
+                    src="/icons/eye.png"
                     className="eye"
                     alt="Phone"
                     style={{ width: "20px" }}
@@ -165,15 +154,7 @@ const ResetPassword = () => {
                 )}
               </button>
             </div>
-            {errors.status ? <span className="error">{errors.msg}</span> : ""}
-
-            {wait ? (
-              <button className="button" disabled>
-                Reset password
-              </button>
-            ) : (
-              <button className="button">Reset password</button>
-            )}
+            {load}
           </form>
         </div>
         <div className="copy-right">Pizza &copy; {currentYear}</div>
