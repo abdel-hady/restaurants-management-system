@@ -5,8 +5,10 @@ import { useMutation } from "@apollo/client";
 import swal from "sweetalert";
 import { RESET } from "../GraphQl/graphql";
 import LoadingButton from "../Component/button";
+import { useTranslation } from "react-i18next";
 
 const ResetPassword = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const currentYear = new Date().getFullYear();
   const [resetUser, { loading }] = useMutation(RESET);
@@ -72,9 +74,9 @@ const ResetPassword = () => {
     if (localStorage.getItem("mode"))
       document.body.classList.add(localStorage.getItem("mode"));
     if (loading) {
-      setLoading(LoadingButton);
+      setLoading(<LoadingButton/>);
     } else {
-      setLoading(<button className="button">Reset password</button>);
+      setLoading(<button className="button">{t("reset_password")}</button>);
     }
   }, [loading]);
   return (
@@ -87,11 +89,11 @@ const ResetPassword = () => {
         </div>
         <div className="form-icon">
           <form onSubmit={handleSubmit}>
-            <p> Reset password</p>
+            <p> {t("reset_password")}</p>
             <span className="welcome">
-              Strong password include numbers, letters, and punctuation marks.
+              {t("enter_strong_password")}
             </span>
-            <label>New password</label>
+            <label>{t("new_password")}</label>
             <div className="password-eye">
               <input
                 id="password"
@@ -103,7 +105,7 @@ const ResetPassword = () => {
                     password: e.target.value,
                   });
                 }}
-                placeholder="Password"
+                placeholder={t("password")}
               />
               <button className="btneye" onClick={togglePassword}>
                 {passwordType === "password" ? (
@@ -123,7 +125,7 @@ const ResetPassword = () => {
               </button>
             </div>
             <span className="error">{errors.msg}</span>
-            <label>Confirm Password</label>
+            <label>{t("confirm_password")}</label>
             <div className="password-eye">
               <input
                 id="password_confirmation"
@@ -135,7 +137,7 @@ const ResetPassword = () => {
                     password_confirmation: e.target.value,
                   });
                 }}
-                placeholder="Password"
+                placeholder={t("confirm_password")}
               />
               <button className="btneye" onClick={togglePassword}>
                 {passwordType === "password" ? (

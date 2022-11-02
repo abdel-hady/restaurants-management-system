@@ -1,0 +1,23 @@
+{
+  "app_title": "Title",
+  "language": "Language",
+  "welcome_message": "Welcome",
+  "days_since_release": "it's been {{number_of_days}} days since this video was released",
+  "sign_in": "Sign In",
+  "welcome": "Welcome to Pizza",
+  "email": "Email",
+  "password": "Password",
+  "remember_me": "Remember Me",
+  "forget_password?": "Forget Password?",
+  "pizza": "Pizza",
+  "wait": "Please waid...",
+  "forget_password": "Reset Password",
+  "enter_email": " Enter your email below, and we'll send you a link to reset your password.",
+  "back_to_login": "Back to login",
+  "send":"send",
+  "reset_password": "Reset Password",
+  "enter_strong_password":"Strong password include numbers, letters, and punctuation marks.",
+  "new_password": "New Password",
+  "confirm_password": "Confirm Password"
+
+}

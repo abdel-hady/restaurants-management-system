@@ -5,8 +5,10 @@ import { useMutation } from "@apollo/client";
 import swal from "sweetalert";
 import LoadingButton from "../Component/button";
 import { FORGET } from "../GraphQl/graphql";
+import { useTranslation } from "react-i18next";
 
 const ForgetPassword = () => {
+  const { t } = useTranslation();
   const currentYear = new Date().getFullYear();
   const [load, setLoading] = useState();
   const [error, seterror] = useState();
@@ -18,9 +20,9 @@ const ForgetPassword = () => {
     if (localStorage.getItem("mode"))
       document.body.classList.add(localStorage.getItem("mode"));
     if (loading) {
-      setLoading(LoadingButton);
+      setLoading(<LoadingButton/>);
     } else {
-      setLoading(<button className="button">Send</button>);
+      setLoading(<button className="button">{t("send")}</button>);
     }
   }, [loading]);
   const handleSubmit = (e) => {
@@ -64,12 +66,11 @@ const ForgetPassword = () => {
           </div>
           <div className="form-icon">
             <form onSubmit={handleSubmit}>
-              <p>Reset password</p>
+              <p>{t("forget_password")}</p>
               <span className="welcome">
-                Enter your email below, and we'll send you a link to reset your
-                password.
+               {t("enter_email")}
               </span>
-              <label>Email</label>
+              <label>{t("email")}</label>
               <input
                 type="text"
                 onChange={(e) => {
@@ -78,16 +79,16 @@ const ForgetPassword = () => {
                     email: e.target.value,
                   });
                 }}
-                placeholder="Email"
+                placeholder={t("email")}
               />
               {error}
               {load}
               <Link to="/login" className="link">
-                Back to login
+                {t("back_to_login")}
               </Link>
             </form>
           </div>
-          <div className="copy-right">Pizza &copy; {currentYear}</div>
+          <div className="copy-right">{t("pizza")} &copy; {currentYear}</div>
         </div>
       </div>
     </>

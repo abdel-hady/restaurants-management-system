@@ -1,16 +1,16 @@
-:root{
-    --dark-main: #141414;
-    --dark-second: #2b2b2b;
-    --light-main: white;
-    --light-scond: red;
-    --blur:rgba(255, 255, 255, 0.5);
-    --main-color: black;
+:root {
+  --dark-main: #141414;
+  --dark-second: #2b2b2b;
+  --light-main: white;
+  --light-scond: red;
+  --blur: rgba(255, 255, 255, 0.5);
+  --main-color: black;
 }
 
-.dark-theme{
-    --dark-main: white;
-    --dark-second: #e4e4e4;
-    --light-main: #141414;
-    --blur:rgba(0, 0, 0, 0.5);
-    --main-color: #e8e8e8;
-} 
+.dark-theme {
+  --dark-main: white;
+  --dark-second: #e4e4e4;
+  --light-main: #141414;
+  --blur: rgba(0, 0, 0, 0.5);
+  --main-color: #e8e8e8;
+}

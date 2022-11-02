@@ -5,7 +5,9 @@ import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import LoadingButton from "../Component/button";
 import LOGIN from "../GraphQl/graphql";
+import { useTranslation } from "react-i18next";
 const Login = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const currentYear = new Date().getFullYear();
   const [loginUser, { client, loading }] = useMutation(LOGIN);
@@ -32,18 +34,21 @@ const Login = () => {
         email: formData.email,
         password: formData.password,
       },
-    }).then(res=>{
-      sessionStorage.setItem(
-        "access_token",
-        res.data.login.token_info.access_token
-      );
-      sessionStorage.setItem(
-        "refresh_token",
-        res.data.login.token_info.refresh_token
-      );
-      client.resetStore();
-      navigate("/home");
-    }).catch((err) => {
+    })
+      .then((res) => {
+        sessionStorage.setItem(
+          "access_token",
+          res.data.login.token_info.access_token
+        );
+        sessionStorage.setItem(
+          "refresh_token",
+          res.data.login.token_info.refresh_token
+        );
+        client.resetStore();
+        navigate("/home");
+      })
+      .catch((err) => {
+        console.log(err);
         if (err.graphQLErrors[0].extensions.validation) {
           if (err.graphQLErrors[0].extensions.validation.password) {
             seterrors((prevValue) => {
@@ -79,10 +84,13 @@ const Login = () => {
           }
         } else if (err.message) {
           seterrors((prevValue) => {
-            return { ...prevValue, email: <span className="error">{err.message}</span> };
+            return {
+              ...prevValue,
+              email: <span className="error">{err.message}</span>,
+            };
           });
         }
-    });
+      });
     if (checked) {
       localStorage.setItem("user", JSON.stringify(formData));
     }
@@ -114,11 +122,10 @@ const Login = () => {
     }
 
     if (loading) {
-      setLoading(LoadingButton);
+      setLoading(<LoadingButton/>);
     } else {
-      setLoading(<button className="button">Sing In</button>);
+      setLoading(<button className="button">{t("sign_in")}</button>);
     }
-
   }, [loading]);
   return (
     <div className="sign-in">
@@ -130,9 +137,9 @@ const Login = () => {
         </div>
         <div className="form-icon">
           <form onSubmit={handleSubmit}>
-            <p>Sign In</p>
-            <span className="welcome">Welcome to Pizza</span>
-            <label>Email</label>
+            <p>{t("sign_in")}</p>
+            <span className="welcome">{t("welcome")}</span>
+            <label>{t("email")}</label>
             <input
               id="email"
               type="text"
@@ -142,10 +149,10 @@ const Login = () => {
                   email: e.target.value,
                 });
               }}
-              placeholder="Email"
+              placeholder={t("email")}
             />
             {errors.email}
-            <label>Password</label>
+            <label>{t("password")}</label>
             <div className="password-eye">
               <input
                 id="password"
@@ -156,7 +163,7 @@ const Login = () => {
                     password: e.target.value,
                   });
                 }}
-                placeholder="Password"
+                placeholder={t("password")}
               />
               <button className="btneye" onClick={togglePassword}>
                 {passwordType === "password" ? (
@@ -183,17 +190,19 @@ const Login = () => {
                 onChange={handleChange}
                 value={checked}
               />
-              <label htmlFor="check">Remember Me</label>
+              <label htmlFor="check">{t("remember_me")}</label>
             </div>
             <div className="forget">
               <Link to="/forget-password" className="link">
-                Forget password?
+                {t("forget_password")}
               </Link>
             </div>
             {load}
           </form>
         </div>
-        <div className="copy-right">Pizza &copy; {currentYear}</div>
+        <div className="copy-right">
+          {t("pizza")} &copy; {currentYear}
+        </div>
       </div>
     </div>
   );
